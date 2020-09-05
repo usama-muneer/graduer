@@ -1,0 +1,10 @@
+.home-login-body{
+  background-color: gray;
+}
+.modal-content{
+  background-color: navbar-light;
+  margin-top: -50px;
+}
+.forgot a{
+  color: black;
+}

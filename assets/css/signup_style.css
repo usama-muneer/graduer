@@ -1,0 +1,62 @@
+
+.welcome hr{
+  border-top: 2px solid #b4b4b4;
+  width: 40%;
+  margin-top: 0.3rem;
+  margin-bottom: 1rem;
+}
+#welcome-text-padding{
+  margin-top: -40px;
+  padding-bottom: 0px;
+}
+#community-text-padding{
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+#join-text-padding{
+  margin-top: -20px;
+}
+
+
+/*---Modal Forms---*/
+.user-img img{
+  height: 100px;
+  width: 100px;
+}
+.btnf {
+  background-color: #3b5998;
+  border: 0px;
+  height: 40px;
+  color: white;
+  font-size: 18px;}
+.btng {
+  margin-top: 10px;
+  background-color: #FF5733;
+  border: 0px;
+  height: 40px;
+  color: white;
+  font-size: 18px;
+}
+.btns {
+  background-color: orange;
+  border: 0px;
+  height: 40px;
+  color: white;
+  font-size: 18px;
+}
+#smlogin {
+  padding: 10px;
+}
+.fa-facebook-square {
+  font-size: 30px;
+  float: left;
+  padding-right: 10px;
+}
+.fa-google {
+  font-size: 30px;
+  float: left;
+  padding-right: 10px;
+}
+.forgot {
+  margin-top: -20px;
+}

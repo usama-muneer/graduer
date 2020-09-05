@@ -1,0 +1,19 @@
+img{
+  display: inline-block;
+  position: relative;
+  max-width: 150px;
+  max-height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+input[type=file]{
+padding:10px;
+}
+.heading{
+    font-weight: bold;
+}
+
+#createprofile-form{
+  margin-left: 50px;
+  margin-right: 50px;
+}
