@@ -58,10 +58,12 @@ $route['insert_schoolcountry']  = 'Aschool/insert_schoolcountry';
 
 $route['create_profile']        = 'BProfilec/create_profile';
 $route['edit_profile']          = 'BProfilec/edit_profile';
+$route['updatepic']             = 'BProfilec/updatepic';
 $route['profile']               = 'BProfilec/view_profile';
 $route['createuserprofile']     = 'BProfilec/createuserprofile';
 $route['add_school']            = 'BProfilec/add_school';
 $route['delete_userschool']     = 'BProfilec/delete_userschool';
+$route['logout']                = 'BProfilec/logout';
 $route['verify']                = 'Registerc/verify';
 
 $route['login']                 = 'Homec/login';

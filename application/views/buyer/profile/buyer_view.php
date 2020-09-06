@@ -20,7 +20,7 @@ $(document).ready(function(){
           $('#school_state').html('<option value="">Select country first</option>');
       }
   });
-  
+
   $('#school_state').on('change',function(){
       var state_name = $(this).val();
       if(state_name){
@@ -37,7 +37,7 @@ $(document).ready(function(){
           $('#school_city').html('<option value="">Select state first</option>');
       }
   });
-  
+
   $('#school_city').on('change',function(){
       var city_name = $(this).val();
       var state_name = $('#school_state').val();
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		  $description = $row['description'];
 		  $qualification = $row['qualification'];
 			$date = $row['join_date'];
-		  $picture = base_url().$row['picture'];
+		  $picture = base_url('images/resized/').$row['picture'];
 		  endforeach;
 		  }
 	else{
@@ -93,7 +93,7 @@ $(document).ready(function(){
 	else{
 		$not = "No data found.";
 	}
-	
+
 ?>
 
 <style media="screen">
@@ -200,7 +200,7 @@ $(document).ready(function(){
                                                   <th scope="col" class="">Actions</th>
                                               </tr>
                                           </thead>
-                            
+
                                           <tbody>
                                             <!-- display categories data and modal code start   -->
                                             <?php
@@ -222,11 +222,11 @@ $(document).ready(function(){
                                                         if($data5){
                                                           foreach ($data5 as $row) {
                                                           	$school_id = $row['school_id'];
-                                                        	$link = "https://www.graduer.com/fellows/" .$school_id;
+                                                        	$link = base_url('fellows/') .$school_id;
                                                         	$fellows_btn = '<a href="' . $link . '"class="btn btn-info float-right">View</span></a>';
                                                           }
                                                         }
-                                                          
+
                                               echo '<tr>
                                                       <td>' . $school_name .'</td>
                                                       <td>' . $year .'</td>
@@ -392,7 +392,7 @@ function readURL(input) {
                 <select name="school_name" type="text" class="form-control" id="school_namee" placeholder="" required>
                 </select>
               </div><hr/>
-              
+
               <div class="form-group">
                 <select name="year" type="text" class="form-control" id="year" placeholder="" required>
                     <option value="">Select year of attendance</option>
@@ -429,7 +429,7 @@ function readURL(input) {
                     <option value="2020">2020</option>
                 </select>
               </div><hr/>
-              
+
               <div class="float-right">
                   <button type="submit" class="btn btn-success">Add</button>
               </div>

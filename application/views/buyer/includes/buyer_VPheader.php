@@ -11,7 +11,7 @@
 		  $description = $row['description'];
 			$date = $row['join_date'];
 		  $qualification = $row['qualification'];
-		  $picture = base_url().$row['picture'];
+		  $picture = base_url('images/thumbnail/').$row['picture'];
 		  endforeach;
 		  }
 	else{

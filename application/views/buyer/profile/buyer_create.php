@@ -64,7 +64,7 @@ $(document).ready(function(){
           $('#school_state').html('<option value="">Select country first</option>');
       }
   });
-  
+
   $('#school_state').on('change',function(){
       var state_name = $(this).val();
       if(state_name){
@@ -81,7 +81,7 @@ $(document).ready(function(){
           $('#school_city').html('<option value="">Select state first</option>');
       }
   });
-  
+
   $('#school_city').on('change',function(){
       var city_name = $(this).val();
       var state_name = $('#school_state').val();
@@ -103,6 +103,10 @@ $(document).ready(function(){
 });
 //AJAX CODE FOR GET DYNAMIC SERVICES END
 </script>
+<div class="container">
+  <?php if($this->session->flashdata('error')){echo '<br /><b><div class="text-center alert alert-danger">' . $this->session->flashdata('error') . '</b></div>';} ?>
+</div>
+
   <div class="jumbotron" align="center">
     <h1>Welcome to Graduer</h1>
     <h3>It's time to setup your profile.</h3><br/>
@@ -114,6 +118,7 @@ $(document).ready(function(){
       <div align="center">
         <img align="center" id="blah" src="http://placehold.it/225" class="rounded-circle" alt="avatar" >
       </div>
+      <small for="inputAddress" class="text-muted" style="padding-left:10px;">  Maximum size 5 MB</small>
       <input type="file" name="pic" tabindex="2" class="form-control-file" id="" onchange="readURL(this);" required><br><br>
       <label class="heading">Upload your profile picture</label><br/>
     </div>

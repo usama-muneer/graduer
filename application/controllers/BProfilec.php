@@ -34,15 +34,6 @@
       echo $this->autocomplete_model->fetch_data($this->uri->segment(4));
     }
 
-    function deactivate_profile(){
-      $user_id        = $this->session->userdata('buyer_id');
-      $data['status'] = 'Deactivated';
-      //Deactivate Account Status
-      $this->db->where('user_id', $user_id);
-      $this->db->update('users', $data);
-      $this->logout();
-    }
-
     //View Profile CODE START
     function view_profile(){
         $user_id = $this->session->userdata('buyer_id');
@@ -60,7 +51,7 @@
       }
     }
     //View Profile CODE END
-    
+
     //Update Profile CODE START
     function edit_profile(){
       $this->load->view('buyer/includes/buyer_VPheader');
@@ -72,30 +63,61 @@
     //Update Profile CODE END
 
     //create profile code start
-    //DO UPLOAD FUNCTION CODE START
-    function do_upload(){
-      $file_name = $_FILES['pic']['name'];
-  		$file_temp = $_FILES['pic']['tmp_name'];
-  		$upload_folder = "images/";
-  		if(is_uploaded_file($file_name)){
-  		$movefile = move_uploaded_file( $file_temp, $upload_folder . $file_name);
-  		//$url = base_url()."images/".$_FILES['pic']['name'];
-  		//if(is_uploaded_file($file_name)){
-  			//echo "asdads";
-  			//move_uploaded_file($_FILES['pic']['tmp_name'], $url);
-  		}
-  	  $image = basename($file_name);
-  	  $image=str_replace(' ','|',$image);
-  	  $type = explode(".",$image);
-  	  $type = $type[count($type)-1];
-  	  if (in_array($type,array('jpg','jpeg','png','gif'))){
-  	    $tmppath=$upload_folder.uniqid(rand()).".".$type; // uniqid(rand()) function generates unique random number.
-  	    if(is_uploaded_file($file_temp)){
-  	      move_uploaded_file($file_temp,$tmppath);
-  	      return $tmppath; // returns the url of uploaded image.
-  	    }
-  	  }
-   	}
+
+   //DO UPLOAD FUNCTION CODE START
+   function do_upload(){
+      $config['upload_path']   = './images/original/';
+	  	$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		  $config['max_size']      = '5120';
+		  $config['max_height'] 	 = '10240';
+	  	$config['max_height']    = '10240';
+	  	$config['encrypt_name']  = true;
+	  	$this->load->library('upload', $config);
+	   	// Alternately you can set preferences by calling the ``initialize()`` method. Useful if you auto-load the class:
+	  	$this->upload->initialize($config);
+	  	if ( ! $this->upload->do_upload('pic')){
+        #$this->session->set_flashdata('error', $this->upload->display_errors());
+        $error['error'] = $this->upload->display_errors();
+        return $error;
+	  	}else{
+	  	 $data = $this->upload->data();
+	  	 $file_name = $data['file_name'];
+       $this->resizeImage($file_name);
+       return $file_name;
+      }
+    }
+   //DO UPLOAD FUNCTION CODE END
+
+   function resizeImage($filename){
+      $source_path = 'images/original/' . strval($filename);
+      $resized_path = 'images/resized/';
+      $thumb_path = 'images/thumbnail/';
+      $config_manip = array(
+          'image_library' => 'gd2',
+          'source_image' => $source_path,
+          'new_image' => $resized_path,
+          'maintain_ratio' => TRUE,
+          'width' => 256,
+          'height' => 256
+      );
+      $this->load->library('image_lib');
+      $this->image_lib->initialize($config_manip);
+      $this->image_lib->resize();
+
+      $config_manip = array(
+          'image_library' => 'gd2',
+          'source_image' => $source_path,
+          'new_image' => $thumb_path,
+          'maintain_ratio' => TRUE,
+          'width' => 128,
+          'height' => 128
+      );
+      $this->image_lib->initialize($config_manip);
+      $this->image_lib->resize();
+
+      $this->image_lib->clear();
+      return true;
+   }
     //DO UPLOAD FUNCTION CODE END
 
     public function createuserprofile(){
@@ -147,17 +169,32 @@
       //School Code End
 
       //profile create code start
-      $data ['description'] = $this->input->post('description');
+
       if($this->input->post('country') != ''){
           $data ['country'] = $this->input->post('country');
       }
+
+      $pic = $this->do_upload();
+      if(isset($pic['error'])){
+        #echo $pic['error'];
+        $this->session->set_flashdata('error', $pic['error']);
+        redirect(base_url('create_profile'));
+      }else{
+        $data['picture'] = $pic;
+      }
+
+      $data ['description'] = $this->input->post('description');
       $data ['gender'] = $this->input->post('gender');
-      $data ['picture']= $this->do_upload($this->input->post('file'));
       $data ['user_id'] = $this->session->userdata('buyer_id');
       $data ['join_date'] = date("Y/m/d");
       $this->load->model('profile_model');
-      $this->profile_model->insert_profile($data);
-      redirect(base_url() . 'profile', 'refresh');// Redirect to Success page
+      if($this->profile_model->insert_profile($data)){
+        redirect(base_url('profile'));
+      }
+      else{
+        $this->session->set_flashdata('error', 'Something occured! Please try again.');
+        redirect(base_url('create_profile'));
+      }// Redirect to Success page
       //profile create code end
     }
 
@@ -202,20 +239,31 @@
       if($data){
         $this->db->where('user_id', $this->session->userdata('buyer_id'));
         $this->db->update('userprofile', $data);
-      }
-  	  redirect(base_url() . 'profile', 'refresh');// Redirect to Success page
+        $this->session->set_flashdata('success', 'Profile updated');
+        redirect(base_url('edit_profile'));
+      }else{
+        $this->session->set_flashdata('error', 'Something occured! Please try again.');
+        redirect(base_url('edit_profile'));
+      }// Redirect to Success page
     }
     //edit profile code end
 
     //edit profile code START
     function updatepic(){
       //profile create code start
-      $data['picture'] = $this->do_upload();
-      if($data){
+      $pic = $this->do_upload();
+      if(isset($pic['error'])){
+        #echo $pic['error'];
+        $this->session->set_flashdata('error', $pic['error']);
+        redirect(base_url('edit_profile'));
+      }else{
+        $data ['picture'] = $pic;
         $this->db->where('user_id', $this->session->userdata('buyer_id'));
-        $this->db->update('userprofile', $data);
+        if($this->db->update('userprofile', $data)){
+          $this->session->set_flashdata('success', 'Profile updated');
+          redirect(base_url('edit_profile'));
+        }
       }
-  	  redirect(base_url() . 'profile', 'refresh');// Redirect to Success page
     }
     //edit profile code end
 
@@ -253,7 +301,7 @@
       redirect(base_url() . "profile");
     }
     //Add User School Code End
-    
+
     //Delete User School Code End
     function delete_userschool(){
       $this->load->model('aschool_model');
@@ -262,7 +310,7 @@
       redirect(base_url(). 'profile');
     }
     //Delete User School Code End
-    
+
     //PAGE SETTINGS CODE START
     function settings(){
       $this->load->view('buyer/includes/buyer_VPheader');

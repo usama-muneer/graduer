@@ -10,7 +10,7 @@
 		  $gender = $row['gender'];
 		  $description = $row['description'];
 		  $qualification = $row['qualification'];
-		  $picture = base_url().$row['picture'];
+		  $picture = base_url('images/resized/').$row['picture'];
 		  endforeach;
 		  }
 	else{
@@ -50,16 +50,21 @@ input[type=file]{
 }
 
 </style>
+<div class="container">
+	<?php if($this->session->flashdata('error')){echo '<br /><b><div class="text-center alert alert-danger">' . $this->session->flashdata('error') . '</b></div>';} ?>
+	<?php if($this->session->flashdata('success')){echo '<br /><b><div class="text-center alert alert-success">' . $this->session->flashdata('success') . '</b></div>';} ?>
+</div>
 
 <br><br><br>
 <div class="container">
 
-<?php echo form_open_multipart('BProfilec/updatepic' , array('id' => 'img'));?>
+<?php echo form_open_multipart('updatepic' , array('id' => 'img'));?>
 	<div class="form-group">
 		<div align="center">
 			<img align="center" id="blah" class="img-editprofile" src="<?php echo $picture; ?>" class="rounded-circle" alt="avatar" >
 		</div>
-		<input type="file" name="pic" tabindex="2" class="form-control-file" id="" onchange="readURL(this);">
+		<small for="inputAddress" class="text-muted" style="padding-left:10px;">  Maximum size 5 MB</small>
+		<input type="file" name="pic" tabindex="2" class="form-control-file" id="" onchange="readURL(this);" required>
 		<button type="submit" class="btn btn-success" name="button">Upload</button>
 	</div>
 </form>
@@ -75,7 +80,7 @@ input[type=file]{
 	<hr/>
 
 	<!-- div class="form-group">
-	
+
 	<!-- LANGUAGE code start -->
 	<!-- label for="inputAddress" class="heading">Let the world know about the languages you understand </label>
 

@@ -62,7 +62,7 @@
             foreach ($rows as $row){
               echo '<div class="col-md-3 padding card-deck">
                       <div class="card">
-                        <a href="'. base_url() .'" class="rounded text-center"><img src="'.base_url().$row['picture'] .'" class="img-fluid img-viewgig" alt="profile" id="blah" /></a>
+                        <a href="'. base_url() .'" class="rounded text-center"><img src="'.base_url('images/resized/').$row['picture'] .'" class="img-fluid img-viewgig" alt="profile" id="blah" /></a>
                         <div class="card-footer">
                         <p class="card-text text-muted"><small class="text-muted">Name: <a href="'.base_url() .'" class="text-dark text-muted" <span style="padding-left:67px;">'. $row['username'] .'</a></small></p>
 
