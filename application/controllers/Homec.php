@@ -70,66 +70,6 @@ class Homec extends CI_Controller {
     }
   }
 
-  public function view_services($serviceCategory_id = null){
-    if($serviceCategory_id){
-      //$serviceCategory_id = rawurldecod($serviceCategory_id);
-      $this->load->model('Aservice_model');
-      $service_data['service_data'] = $this->Aservice_model->getServiceDataByServiceCategoryId($serviceCategory_id);
-      $this->load->view('home/includes/home_hiwheader');
-      $this->load->view('home/view_services', $service_data);
-      $this->load->view('home/includes/home_footer');
-      $this->load->view('home/includes/home_model');
-      $this->load->view('home/includes/home_end');
-    }
-  }
-
-  function view_gigs($service_id = null){
-    if($service_id){
-      $this->load->model('Aservice_model');
-      $service_name         = $this->Aservice_model->getServiceNameByServiceId($service_id);
-      $this->load->model('Gig_model');
-      $g_data = $this->Gig_model->getGigDataByServiceName($service_name);
-      if($g_data){
-        $gig_data['gig_data'] = $g_data;
-        $this->load->view('home/includes/home_hiwheader');
-        $this->load->view('home/view_gigs', $gig_data);
-        $this->load->view('home/includes/home_footer');
-        $this->load->view('home/includes/home_model');
-        $this->load->view('home/includes/home_end');
-      }else{
-        $service['service_name'] = $service_name;
-        $this->load->view('home/includes/home_hiwheader');
-        $this->load->view('home/view_gigs', $service);
-        $this->load->view('home/includes/home_footer');
-        $this->load->view('home/includes/home_model');
-        $this->load->view('home/includes/home_end');
-      }
-    }
-  }
-
-  function show_gigs(){
-    $service_name = $this->input->get('search_service');
-    if($service_name){
-      $this->load->model('Gig_model');
-      $g_data = $this->Gig_model->getGigDataByServiceName($service_name);
-      if($g_data){
-        $gig_data['gig_data'] = $g_data;
-        $this->load->view('home/includes/home_hiwheader');
-        $this->load->view('home/view_gigs', $gig_data);
-        $this->load->view('home/includes/home_footer');
-        $this->load->view('home/includes/home_model');
-        $this->load->view('home/includes/home_end');
-      }else{
-        $service['service_name'] = $service_name;
-        $this->load->view('home/includes/home_hiwheader');
-        $this->load->view('home/view_gigs', $service);
-        $this->load->view('home/includes/home_footer');
-        $this->load->view('home/includes/home_model');
-        $this->load->view('home/includes/home_end');
-      }
-    }
-  }
-  
   function changePasswordSendEmail(){
       $email['email'] = $this->input->post('email');
       $this->db->where('email', $email['email']);

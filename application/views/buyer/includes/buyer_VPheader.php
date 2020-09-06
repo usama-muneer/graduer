@@ -71,7 +71,7 @@
 	</style>
 
 	<script type="text/javascript">
-	/*$(document).ready(function(){
+	$(document).ready(function(){
 			// call functions
 			setInterval(showMessagesNotifi,  2000);
 			setInterval(chk_unread_msg, 2000);
@@ -129,7 +129,7 @@
 	</script>
 	<script type="text/javascript">
 
-		/** $(document).ready(function(){
+		$(document).ready(function(){
 		  $('#search_box').on('keyup',function(){
 		      var search_data = $(this).val();
 		      if(search_data){
@@ -176,6 +176,19 @@
         <a class="nav-link dropdown-toggle" href="<?php echo base_url(); ?>profile">Home</a>
 			</li>
 
+			<!-- NAVBAR MESSAGE CODE START -->
+      <li class="nav-item dropdown">
+        <a class="nav-link" href="<?php echo base_url(); ?>Profilec/chat" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<i class="fas fa-comments"></i>
+					<span id="chk-unread-msg"></span>
+				</a>
+
+        <ul class="dropdown-menu" id="dropdown-menu-n">
+
+        </ul>
+      </li>
+      <!-- NAVBAR MESSAGE CODE RNF -->
+
 
       <!-- NAVBAR PROFILE CODE START -->
       <li class="nav-item dropdown">
@@ -196,7 +209,7 @@
 </nav>
 <!-- NAVBAR CODE END -->
 <script type="text/javascript">
-/*	$(document).ready(function(){
+	$(document).ready(function(){
 		var sample_data = new Bloodhound({
 			datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 			queryTokenizer: Bloodhound.tokenizers.whitespace,

@@ -1,64 +1,65 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-//AJAX CODE FOR GET DYNAMIC SERVICES START
-$(document).ready(function(){
-  $('#school_country').on('change',function(){
-      var country_name = $(this).val();
-      if(country_name){
-          $.ajax({
-            type:'POST',
-            url:'<?php echo base_url(); ?>Aschool/ajaxGetStateName',
-            data:'country_name='+country_name,
-            success:function(html){
-                $('#school_state').html(html);
-            }
-          });
-      }
-      else{
-          $('#school_state').html('<option value="">Select country first</option>');
-      }
+  //AJAX CODE FOR GET DYNAMIC SERVICES START
+  $(document).ready(function(){
+    $('#school_country').on('change',function(){
+        var country_name = $(this).val();
+        if(country_name){
+            $.ajax({
+              type:'POST',
+              url:'<?php echo base_url(); ?>Aschool/ajaxGetStateName',
+              data:'country_name='+country_name,
+              success:function(html){
+                  $('#school_state').html(html);
+              }
+            });
+        }
+        else{
+            $('#school_state').html('<option value="">Select country first</option>');
+        }
+    });
+
+    $('#school_state').on('change',function(){
+        var state_name = $(this).val();
+        if(state_name){
+            $.ajax({
+              type:'POST',
+              url:'<?php echo base_url(); ?>Aschool/ajaxGetCityName',
+              data:'state_name='+state_name,
+              success:function(html){
+                  $('#school_city').html(html);
+              }
+            });
+        }
+        else{
+            $('#school_city').html('<option value="">Select state first</option>');
+        }
+    });
+
+    $('#city_country').on('change',function(){
+        var country_name = $(this).val();
+        if(country_name){
+            $.ajax({
+              type:'POST',
+              url:'<?php echo base_url(); ?>Aschool/ajaxGetStateName',
+              data:'country_name='+country_name,
+              success:function(html){
+                  $('#city_state').html(html);
+              }
+            });
+        }
+        else{
+            $('#city_state').html('<option value="">Select country first</option>');
+        }
+    });
   });
-  
-  $('#school_state').on('change',function(){
-      var state_name = $(this).val();
-      if(state_name){
-          $.ajax({
-            type:'POST',
-            url:'<?php echo base_url(); ?>Aschool/ajaxGetCityName',
-            data:'state_name='+state_name,
-            success:function(html){
-                $('#school_city').html(html);
-            }
-          });
-      }
-      else{
-          $('#school_city').html('<option value="">Select state first</option>');
-      }
-  });
-  
-  $('#city_country').on('change',function(){
-      var country_name = $(this).val();
-      if(country_name){
-          $.ajax({
-            type:'POST',
-            url:'<?php echo base_url(); ?>Aschool/ajaxGetStateName',
-            data:'country_name='+country_name,
-            success:function(html){
-                $('#city_state').html(html);
-            }
-          });
-      }
-      else{
-          $('#city_state').html('<option value="">Select country first</option>');
-      }
-  });
-});
-//AJAX CODE FOR GET DYNAMIC SERVICES END
+  //AJAX CODE FOR GET DYNAMIC SERVICES END
 </script>
 
 <div class="container padding10">
   <h2>Schools</h2> <hr/>
+  <!-- Modal Buttons -->
   <div class="container row">
       <button class="btn btn-success col-md-2" data-toggle="modal" data-target="#modalAddCountry">Add Country</button>
       <span class="col-md-1"></span>
@@ -80,7 +81,6 @@ $(document).ready(function(){
                       <th>City</th>
                       <th>School Name</th>
                       <th colspan="2" class="text-center">Actions</th>
-                      <th></th>
                   </tr>
               </thead>
 
@@ -89,49 +89,50 @@ $(document).ready(function(){
                 <?php
                   if(isset($data)){
                     foreach ($data as $school_row) {
-                      echo '<tr>
-                              <td>' . $school_row['country'] .'</td>
-                              <td>' . $school_row['state'] .'</td>
-                              <td>' . $school_row['city'] .'</td>
-                              <td>' . $school_row['school_name'] .'</td>
-                              <td>
-                                <a href="#modalDeleteCategory' . $school_row['school_id'] . '" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteCategory'. $school_row['school_id'] . '">Delete</a>
-                              </td>
-                          </tr>
-                          
-                              
-
-                          <!-- Delete Category Modal Start-->
-                          <div class="modal fade" id="modalDeleteCategory'.$school_row['school_id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
+                      ?>
+                      <tr>
+                          <td><?php echo $school_row['country']; ?></td>
+                          <td><?php echo $school_row['state']; ?></td>
+                          <td><?php echo $school_row['city']; ?></td>
+                          <td><?php echo $school_row['school_name']; ?></td>
+                          <td>
+                            <a href="#modalDeleteCategory<?php echo $school_row['school_id']; ?>" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteCategory<?php echo $school_row['school_id']; ?>">Delete</a>
+                          </td>
+                      </tr>
+                      <!-- Delete Category Modal Start-->
+                      <div class="modal fade" id="modalDeleteCategory<?php echo $school_row['school_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                          <div class="modal-dialog" role="document">
+                              <!--Content-->
                               <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Delete School</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="container">
-                                      <form method="post" action="'. base_url('Aschool/delete_school') .'">
-                                        <input type="hidden" name="category_id" class="form-control" value="' . $school_row['school_id'] . '" readonly>
-                                        <div class="form-group">
-                                          <input type="hidden" readonly class="form-control-plaintext" id="txtUpdCatId" value="">
-                                        </div>
-                                        <div class="form-group text-center">
-                                          <label for="exampleFormControlInput1" class="formheading">Confirm Delete?</label>
-                                        </div> <hr/>
-                                        <div class="float-right">
-                                          <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                          <button type="submit" class="btn btn-danger">Delete</button>
-                                        </div>
-                                      </form>
+                                  <!--Header-->
+                                  <div class="modal-header">
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                          <span aria-hidden="true">&times;</span>
+                                      </button>
                                   </div>
-                                </div>
+                                  <!--Body-->
+                                <form method="post" action="<?php echo base_url('Aschool/delete_school') ?>">
+                                  <div class="modal-body">
+                                      <input type="hidden" name="school_id" class="form-control" value="<?php echo $school_row['school_id']; ?>" readonly>
+                                      <div class="form-group">
+                                        <input type="hidden" readonly class="form-control-plaintext" id="txtUpdCatId" value="">
+                                      </div>
+                                      <div class="form-group text-center">
+                                        <label for="exampleFormControlInput1" class="formheading">Confirm Delete?</label>
+                                      </div>
+                                  </div>
+                                  <!--Footer-->
+                                  <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                      <button type="submit" class="btn btn-danger">Delete</button>
+                                  </div>
+                                </form>
                               </div>
-                            </div>
+                              <!--/.Content-->
                           </div>
-                          <!-- Delete Category Modal End-->';
+                      </div>
+                      <!-- Delete Category Modal End-->
+                <?php
                     }
                   }
                 ?>
@@ -316,50 +317,3 @@ $(document).ready(function(){
   </div>
 </div>
 <!-- Add City Modal End-->
-
-
-
-
-<!--td>
-                                <a href="#modalUpdateCategory' . $school_row['school_id'] . '" class="btn btn-success" data-toggle="modal" data-target="#modalUpdateCategory'. $school_row['school_id'] . '">Update</a>
-                              </td-->
-                          <!-- Update Category Modal Start-->
-                          <!-- div class="modal fade" id="modalUpdateCategory'.$school_row['school_id'].'" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="exampleModalLongTitle">Update Service Category</h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <div class="modal-body">
-                                  <div class="container">
-                                      <form method="post" action="'. base_url('Aschool/update_school') .'">
-                                        <input type="hidden" name="school_id" class="form-control" value="' . $school_row['school_id'] . '" readonly>
-                                        <div class="form-group">
-                                          <label for="exampleFormControlInput1" class="formheading">Country Name</label>
-                                          <input name="country" type="text" class="form-control" id="txtUpdCatName" value="' . $school_row['country'] . '">
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="exampleFormControlInput1" class="formheading">Region Name</label>
-                                          <input name="state" type="text" class="form-control" id="txtUpdCatName" value="' . $school_row['state'] . '">
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="exampleFormControlInput1" class="formheading">City Name</label>
-                                          <input name="city" type="text" class="form-control" id="txtUpdCatName" value="' . $school_row['city'] . '">
-                                        </div>
-                                        <div class="form-group">
-                                          <label for="exampleFormControlInput1" class="formheading">School Name</label>
-                                          <input name="school_name" type="text" class="form-control" id="txtUpdCatName" value="' . $school_row['school_name'] . '">
-                                        </div> <hr/>
-                                        <div class="float-right">
-                                            <button type="submit" class="btn btn-success">Update</button>
-                                        </div>
-                                      </form>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div -->
-                          <!-- Update Category Modal End-->

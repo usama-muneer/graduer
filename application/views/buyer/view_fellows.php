@@ -60,6 +60,10 @@
             $query = "SELECT u.user_id, p.picture, p.gender, u.username, p.join_date  FROM userprofile as p, users as u WHERE u.user_id = '" . $uuser_id . "' AND p.user_id = '" . $uuser_id . "'";
             $rows = $this->db->query($query)->result_array();
             foreach ($rows as $row){
+              $btn = '';
+              if($row['user_id'] != $this->session->userdata('buyer_id')){
+                $btn = anchor("Chatc/chat/{$row['user_id']}", 'Contact', ['class'=>'btn btn-success col-md-12']);
+              }
               echo '<div class="col-md-3 padding card-deck">
                       <div class="card">
                         <a href="'. base_url() .'" class="rounded text-center"><img src="'.base_url('images/resized/').$row['picture'] .'" class="img-fluid img-viewgig" alt="profile" id="blah" /></a>
@@ -68,6 +72,7 @@
 
                           <p><span class="text-center text-muted"> <small>Gender: <span style="padding-left:59px;">'. $row['gender'] .'</span></small></span></p>
                           <span class="text-center text-muted"> <small>Member Since: <span style="padding-left:25px;">'. $row['join_date'] .'</span></small></span>
+                          '. $btn .'
                         </div>
                       </div>
                     </div>';

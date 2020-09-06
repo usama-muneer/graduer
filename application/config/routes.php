@@ -66,6 +66,10 @@ $route['delete_userschool']     = 'BProfilec/delete_userschool';
 $route['logout']                = 'BProfilec/logout';
 $route['verify']                = 'Registerc/verify';
 
+$route['chat_box']              = 'Chatc/chat';
+$route['send_message']          = 'Chatc/send_message';
+$route['view_message']          = 'Chatc/view_message';
+
 $route['login']                 = 'Homec/login';
 $route['change_password/(:any)']= 'homec/change_password/$1';
 $route['(:any)']                = 'Homec/$1';

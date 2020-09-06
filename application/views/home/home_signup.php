@@ -11,7 +11,7 @@
 <!--</div>
 PHP CODE SHOW USER INSERTED CODE END -->
 <!--- JOIN AS BUYER CODE START -->
-
+<br>
 <div class="modal-dialog modal-dialog-centered" role="document">
 	<div class="modal-content">
 		<div class="modal-body text-center">

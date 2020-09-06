@@ -19,7 +19,7 @@
       $this->Aschool_model->insert_school($data);
       redirect(base_url(). 'schools');
     }
-    
+
     function insert_schoolCountry(){
       $data['country_name'] = $this->input->post('country_name');
       $this->Aschool_model->insert_schoolcountry($data);
@@ -53,11 +53,11 @@
     }
 
     function delete_school(){
-      $school_id = $this->input->post('category_id');
+      $school_id = $this->input->post('school_id');
       $this->Aschool_model->delete_school($school_id);
       redirect(base_url(). 'schools');
     }
-    
+
     //Dynamically region name load in create buyer request page  code start
       function ajaxGetStateName(){
         if($this->input->post('country_name')){
@@ -74,10 +74,10 @@
               echo '<option value="">No region found.</option>';
           }
         }
-        
+
       }
   //Dynamically region name load in create buyer request page  code start
-  
+
   //Dynamically city name load in create buyer request page  code start
       function ajaxGetCityName(){
         if($this->input->post('state_name')){
@@ -96,7 +96,7 @@
         }
       }
   //Dynamically city name load in create buyer request page  code start
-  
+
   //Dynamically school name load in create buyer request page  code start
       function ajaxGetSchoolName(){
         if($this->input->post('state_name')){
@@ -117,7 +117,7 @@
         }
       }
   //Dynamically school name load in create buyer request page  code start
-  
+
   }
 
 ?>

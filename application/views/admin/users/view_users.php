@@ -61,38 +61,41 @@
                       </div>
                     </div>
                     <!-- Update Freelancer Modal End -->
-                    
-                     <!-- Delete Category Modal Start-->
-                      <div class="modal fade" id="modalDeleteUser<?php echo $user_row['user_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title" id="exampleModalLongTitle">Delete User</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div>
-                            <div class="modal-body">
-                              <div class="container">
-                                  <form method="post" action="<?php echo base_url('Auserc/delete_user'); ?>">
+
+
+                    <!-- Delete Category Modal Start-->
+                    <div class="modal fade" id="modalDeleteUser<?php echo $user_row['user_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <!--Content-->
+                            <div class="modal-content">
+                                <!--Header-->
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <!--Body-->
+                              <form method="post" action="<?php echo base_url('Auserc/delete_user'); ?>">
+                                <div class="modal-body">
                                     <input type="hidden" name="user_id" class="form-control" value="<?php echo $user_row['user_id']; ?>" readonly>
                                     <div class="form-group">
-                                      <input type="hidden" readonly class="form-control-plaintext" id="txtUpdCatId" value="This will delete complete user record from database.">
+                                      <input type="hidden" readonly class="form-control-plaintext" id="txtUpdCatId" value="">
                                     </div>
                                     <div class="form-group text-center">
                                       <label for="exampleFormControlInput1" class="formheading">Confirm Delete?</label>
-                                    </div> <hr/>
-                                    <div class="float-right">
-                                      <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                      <button type="submit" class="btn btn-danger">Delete</button>
                                     </div>
-                                  </form>
-                              </div>
+                                </div>
+                                <!--Footer-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </div>
+                              </form>
                             </div>
-                          </div>
+                            <!--/.Content-->
                         </div>
-                      </div>
-                      <!-- Delete Category Modal End-->
+                    </div>
+                    <!-- Delete Category Modal End-->
                     <?php
                   }
                 }

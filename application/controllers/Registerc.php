@@ -37,6 +37,19 @@ class Registerc extends CI_Controller{
         $this->load->view('home/includes/home_end');
       }
 
+  public function regex_check($str)
+  {
+      if (preg_match("/^(?:'[A-Za-z](([\._\-][A-Za-z0-9])|[A-Za-z0-9])*[a-z0-9_]*')$/", $str))
+      {
+          $this->form_validation->set_message('regex_check', 'The %s field is not valid!');
+          return FALSE;
+      }
+      else
+      {
+          return TRUE;
+      }
+  }
+
 	//FREELANCER FORM VALIDATION CODE START
 	function form_validation(){
 
@@ -44,9 +57,9 @@ class Registerc extends CI_Controller{
 		$this->load->library('form_validation');
 
 		//set validation rules
-		$this->form_validation->set_rules("f_usernamejoin", "Username", "trim|required|regex_match[/^[a-z0-9]+$/]|min_length[5]|max_length[12]|is_unique[users.username]");
+		$this->form_validation->set_rules("f_usernamejoin", "Username", "trim|required|regex_match[/^[A-Za-z0-9]+$/]|min_length[5]|max_length[20]|is_unique[users.username]");
 		$this->form_validation->set_rules("f_emailjoin", "Email", "trim|required|valid_email|is_unique[users.email]");
-		$this->form_validation->set_rules("f_passwordjoin", "Password", "trim|alpha_numeric|required|min_length[8]");
+		$this->form_validation->set_rules("f_passwordjoin", "Password", "trim|required|min_length[8]");
 		$this->form_validation->set_rules("f_confirmpasswordjoin", "Password Confirmation", "trim|required|matches[f_passwordjoin]");
 
     //error message if email and username already exist in database
@@ -71,7 +84,7 @@ class Registerc extends CI_Controller{
 
 			//pass data to model insert function
 			$this->user_model->insert_user($data);
-			
+
 			// send email
             if ($this->user_model->sendEmail($this->input->post("f_emailjoin")))
             {
@@ -95,7 +108,7 @@ class Registerc extends CI_Controller{
     redirect(base_url() . "login");
 	}
 	//USER INSERTED FUNCTION CODE END
-	
+
 	function verify($hash=NULL){
 	    $flag = $this->user_model->verifyEmailID($hash);
         if ($flag == 1){
